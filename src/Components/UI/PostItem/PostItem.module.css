@@ -1,0 +1,31 @@
+.post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 799px;
+  background: var(--W);
+  border-radius: 8px;
+  padding: 12px 24px;
+  margin: 0 auto;
+}
+.text {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 19px;
+}
+.title {
+  margin-bottom: 6px;
+}
+.desc {
+  font-weight: 400;
+  font-size: 16px;
+}
+.delete {
+  font-weight: 400;
+  background: var(--W);
+  border: 1px solid var(--G2);
+  border-radius: 4px;
+  height: 26px;
+  padding: 0 16px;
+}
