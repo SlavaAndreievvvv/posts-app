@@ -27,11 +27,19 @@ export const App = () => {
     setPosts([...posts, newPost]);
   };
 
+  const removePost = (post) => {
+    setPosts(posts.filter((p) => p.id !== post.id));
+  };
+
   return (
     <div className={styles.App}>
       <div className={clsx(styles.container)}>
         <PostForm create={createPost} />
-        <PostsList posts={posts} />
+        {posts.length !== 0 ? (
+          <PostsList remove={removePost} posts={posts} />
+        ) : (
+          <div className={styles.notPosts}>Not Posts</div>
+        )}
       </div>
     </div>
   );

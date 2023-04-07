@@ -2,12 +2,12 @@ import styles from "./PostsList.module.css";
 import PropTypes from "prop-types";
 import { PostItem } from "../PostItem";
 
-export const PostsList = ({ posts, title }) => {
+export const PostsList = ({ posts, title, remove }) => {
   return (
     <div className={styles.PostsList}>
       <h1 className={styles.title}>{title}</h1>
       {posts.map((post) => (
-        <PostItem title={post.title} desc={post.desc} key={post.id} />
+        <PostItem remove={remove} post={post} key={post.id} />
       ))}
     </div>
   );
