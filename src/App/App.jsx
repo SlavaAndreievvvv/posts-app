@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { PostsList } from "../Components/UI/PostsList";
 import { PostForm } from "../Components/UI/PostForm";
+import { Select } from "../Components/UI/Select/Select";
 
 export const App = () => {
   const [posts, setPosts] = useState([
@@ -13,12 +14,12 @@ export const App = () => {
     },
     {
       id: 2,
-      title: "JavaScript",
+      title: "React",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     },
     {
       id: 3,
-      title: "JavaScript",
+      title: "HTML",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     },
   ]);
@@ -31,10 +32,26 @@ export const App = () => {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
 
+  const [selectedSort, setSelectedSort] = useState("");
+
+  const sortPosts = (sort) => {
+    setSelectedSort(sort);
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])));
+  };
+
   return (
     <div className={styles.App}>
       <div className={clsx(styles.container)}>
         <PostForm create={createPost} />
+        <Select
+          value={selectedSort}
+          onChange={sortPosts}
+          defaultOptions="sort"
+          options={[
+            { value: "title", name: "title" },
+            { value: "desc", name: "description" },
+          ]}
+        />
         {posts.length !== 0 ? (
           <PostsList remove={removePost} posts={posts} />
         ) : (
