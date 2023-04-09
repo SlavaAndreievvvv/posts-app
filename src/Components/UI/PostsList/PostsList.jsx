@@ -9,8 +9,9 @@ export const PostsList = ({ posts, title, remove }) => {
   return (
     <div className={styles.PostsList}>
       <h1 className={styles.title}>{title}</h1>
+
       {posts.map((post) => (
-        <PostItem remove={remove} post={post} key={post.id} />
+        <PostItem key={post.id} remove={remove} post={post} />
       ))}
     </div>
   );
