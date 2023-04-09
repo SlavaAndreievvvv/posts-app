@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { PostItem } from "../PostItem";
 
 export const PostsList = ({ posts, title, remove }) => {
+  if (!posts.length) {
+    return <h1 style={{ textAlign: "center" }}>Not Posts</h1>;
+  }
   return (
     <div className={styles.PostsList}>
       <h1 className={styles.title}>{title}</h1>
