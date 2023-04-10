@@ -1,34 +1,26 @@
 import styles from "./App.module.css";
 import clsx from "clsx";
-import { useState } from "react";
-import { PostsList } from "../Components/UI/PostsList";
-import { PostForm } from "../Components/UI/PostForm";
-import { PostFilter } from "../Components/UI/PostFilter";
+import { useEffect, useState } from "react";
+import { PostsList } from "../Components/PostsList";
+import { PostForm } from "../Components/PostForm";
+import { PostFilter } from "../Components/PostFilter";
 import { Modal } from "../Components/UI/Modal/Modal";
 import { Button } from "../Components/UI/Button";
 import { usePosts } from "../hooks/usePosts";
+import PostService from "../API/PostService";
+import { Loader } from "../Components/UI/Loader/Loader";
+import { useFetching } from "../hooks/useFetching";
 
 export const App = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "JavaScript",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      id: 2,
-      title: "React",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      id: 3,
-      title: "HTML",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-  ]);
-
+  const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
+
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+    const posts = await PostService.getAll();
+    setPosts(posts);
+  });
+
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
   const createPost = (newPost) => {
@@ -40,14 +32,42 @@ export const App = () => {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return (
     <div className={styles.App}>
       <div className={clsx(styles.container)}>
         <div className={styles.createSortBlock}>
-          <Button onClick={() => setModal(true)}>Create Post</Button>
           <PostFilter filter={filter} setFilter={setFilter} />
+          <Button onClick={() => setModal(true)}>Create Post</Button>
         </div>
-        <PostsList remove={removePost} posts={sortedAndSearchedPosts} />
+        {postError && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "40px",
+            }}
+          >
+            <h1>something wrong {postError}</h1>{" "}
+          </div>
+        )}
+        {isPostsLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "40px",
+            }}
+          >
+            <Loader />
+          </div>
+        ) : (
+          <PostsList remove={removePost} posts={sortedAndSearchedPosts} />
+        )}
+
         <Modal visible={modal} setVisible={setModal}>
           <PostForm create={createPost} />
         </Modal>

@@ -1,10 +1,10 @@
 import styles from "./PostFilter.module.css";
-import { Input } from "../Input";
-import { Select } from "../Select";
+import { Input } from "../UI/Input";
+import { Select } from "../UI/Select";
 
 export const PostFilter = ({ filter, setFilter }) => {
   return (
-    <>
+    <div className={styles.wrapper}>
       <Input
         placeholder="search..."
         value={filter.query}
@@ -20,9 +20,9 @@ export const PostFilter = ({ filter, setFilter }) => {
         defaultOptions="sort"
         options={[
           { value: "title", name: "title" },
-          { value: "desc", name: "description" },
+          { value: "body", name: "body" },
         ]}
       />
-    </>
+    </div>
   );
 };

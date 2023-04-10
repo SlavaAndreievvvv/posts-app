@@ -1,10 +1,10 @@
 import styles from "./PostForm.module.css";
 import { useState } from "react";
-import { Input } from "../Input";
-import { Button } from "../Button";
+import { Input } from "../UI/Input";
+import { Button } from "../UI/Button";
 
 export const PostForm = ({ create }) => {
-  const [post, setPost] = useState({ title: "", desc: "" });
+  const [post, setPost] = useState({ title: "", body: "" });
 
   const createNewPost = (e) => {
     e.preventDefault();
@@ -13,7 +13,7 @@ export const PostForm = ({ create }) => {
       id: Date.now(),
     };
     create(newPost);
-    setPost({ title: "", desc: "" });
+    setPost({ title: "", body: "" });
   };
   return (
     <form className={styles.PostForm}>
@@ -23,8 +23,8 @@ export const PostForm = ({ create }) => {
         onChange={(e) => setPost({ ...post, title: e.target.value })}
       />
       <Input
-        value={post.desc}
-        onChange={(e) => setPost({ ...post, desc: e.target.value })}
+        value={post.body}
+        onChange={(e) => setPost({ ...post, body: e.target.value })}
         placeholder="description"
       />
       <Button onClick={createNewPost} />
