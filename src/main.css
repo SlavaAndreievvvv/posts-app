@@ -19,6 +19,10 @@
   --B3: #d7dcff;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 body,
 p,
 h1,

@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 799px;
+  max-width: 820px;
   background: var(--W);
   border-radius: 8px;
   padding: 12px 24px;
@@ -28,4 +28,13 @@
   border-radius: 4px;
   height: 26px;
   padding: 0 16px;
+}
+.postBtn {
+  display: flex;
+  gap: 4px;
+}
+.postContent {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
 }
