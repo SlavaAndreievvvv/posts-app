@@ -1,0 +1,33 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin: 20px;
+  gap: 14px;
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32.5px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  text-align: center;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.pageButton:active {
+  color: var(--B);
+  border: 1px solid var(--B);
+}
+.pageButton:hover {
+  background-color: #ddd;
+}
+.pageButton.active {
+  color: var(--B);
+  border: 1px solid var(--B);
+}
