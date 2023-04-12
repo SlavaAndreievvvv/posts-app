@@ -1,6 +1,6 @@
 import styles from "./Posts.module.css";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PostsList } from "../../Components/PostsList";
 import { PostForm } from "../../Components/PostForm";
 import { PostFilter } from "../../Components/PostFilter";
@@ -12,6 +12,8 @@ import { Loader } from "../../Components/UI/Loader/Loader";
 import { useFetching } from "../../hooks/useFetching";
 import { getPageCount } from "../../utils/page";
 import { Pagination } from "../../Components/UI/Pagination";
+import { useObserver } from "../../hooks/useObserver";
+// import { LocalStorage } from "localStorage";
 
 export const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -20,18 +22,21 @@ export const Posts = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const lastElement = useRef();
 
-  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
-    const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
-    const totalCount = response.headers["x-total-count"];
-    setTotalPages(getPageCount(totalCount, limit));
-  });
+  const [fetchPosts, isPostsLoading, postError] = useFetching(
+    async (limit, page) => {
+      const response = await PostService.getAll(limit, page);
+      setPosts([...posts, ...response.data]);
+      const totalCount = response.headers["x-total-count"];
+      setTotalPages(getPageCount(totalCount, limit));
+    }
+  );
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
   const createPost = (newPost) => {
-    setPosts([...posts, newPost]);
+    setPosts([newPost, ...posts]);
     setModal(false);
   };
 
@@ -40,18 +45,44 @@ export const Posts = () => {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, [page]);
+    fetchPosts(limit, page);
+  }, [page, limit]);
 
   const changePage = (page) => {
     setPage(page);
   };
 
+  useObserver(lastElement, page < totalPages, isPostsLoading, () => {
+    setPage(page + 1);
+  });
+
+  const loadPosts = () => {
+    const savedPosts = JSON.parse(localStorage.getItem("posts"));
+    if (savedPosts) {
+      setPosts(savedPosts);
+    }
+  };
+  const savePosts = () => {
+    localStorage.setItem("posts", JSON.stringify(posts));
+  };
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  useEffect(() => {
+    savePosts();
+  }, [posts]);
+
   return (
     <div className={styles.Posts}>
       <div className={clsx(styles.container)}>
         <div className={styles.createSortBlock}>
-          <PostFilter filter={filter} setFilter={setFilter} />
+          <PostFilter
+            filter={filter}
+            setFilter={setFilter}
+            value={limit}
+            setLimit={setLimit}
+          />
           <Button onClick={() => setModal(true)}>Create Post</Button>
         </div>
         {postError && (
@@ -65,7 +96,7 @@ export const Posts = () => {
             <h1>something wrong {postError}</h1>{" "}
           </div>
         )}
-        {isPostsLoading ? (
+        {isPostsLoading && (
           <div
             style={{
               display: "flex",
@@ -75,9 +106,12 @@ export const Posts = () => {
           >
             <Loader />
           </div>
-        ) : (
-          <PostsList remove={removePost} posts={sortedAndSearchedPosts} />
         )}
+        <PostsList remove={removePost} posts={sortedAndSearchedPosts} />
+        <div
+          ref={lastElement}
+          style={{ height: "20px", background: "transparent" }}
+        ></div>
         <Pagination
           page={page}
           changePage={changePage}

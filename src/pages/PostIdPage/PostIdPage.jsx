@@ -27,17 +27,26 @@ export const PostIdPage = () => {
 
   return (
     <div className={styles.post}>
-      <h1 className={styles.number}>Post number {params.id}</h1>
-      {isLoading ? <Loader /> : <div>{post.title}</div>}
-      <h1>Comments</h1>
+      <div className={styles.head}>
+        <h1 className={styles.title}>Post number #{params.id}</h1>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className={styles.content}>
+            <h2 className={styles.subtitle}>{post.title}</h2>
+            <p className={styles.desc}>{post.body}</p>
+          </div>
+        )}
+      </div>
       {isCommentLoading ? (
         <Loader />
       ) : (
-        <div>
+        <div className={styles.comments}>
+          <h1 className={styles.title}>Comments</h1>
           {comments.map((comm) => (
-            <div>
-              <a>{comm.email}</a>
-              <div>{comm.body}</div>
+            <div className={styles.card} key={comm.id}>
+              <a className={styles.link}>{comm.email}</a>
+              <div className={styles.desc}>{comm.body}</div>
             </div>
           ))}
         </div>

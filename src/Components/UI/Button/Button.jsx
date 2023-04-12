@@ -1,9 +1,10 @@
+import clsx from "clsx";
 import styles from "./Button.module.css";
 import PropTypes from "prop-types";
 
-export const Button = ({ children, ...props }) => {
+export const Button = ({ className, children, ...props }) => {
   return (
-    <button {...props} className={styles.button}>
+    <button {...props} className={clsx(styles.button, className)}>
       {children}
     </button>
   );
