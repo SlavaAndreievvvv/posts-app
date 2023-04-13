@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styles from "./PostIdPage.module.css";
 import { useFetching } from "../../hooks/useFetching";
 import { useEffect, useState } from "react";
@@ -25,8 +25,14 @@ export const PostIdPage = () => {
     fetchCommentById(params.id);
   }, []);
 
+  const history = useHistory();
+
   return (
     <div className={styles.post}>
+      <a onClick={history.goBack} className={styles.back}>
+        <span className={styles.arrow}></span>
+        back to posts
+      </a>
       <div className={styles.head}>
         <h1 className={styles.title}>Post number #{params.id}</h1>
         {isLoading ? (

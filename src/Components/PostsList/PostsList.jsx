@@ -11,7 +11,7 @@ export const PostsList = ({ posts, title, remove }) => {
       <h1 className={styles.title}>{title}</h1>
 
       {posts.map((post) => (
-        <PostItem key={post.id} remove={remove} post={post} />
+        <PostItem key={Math.random()} remove={remove} post={post} />
       ))}
     </div>
   );

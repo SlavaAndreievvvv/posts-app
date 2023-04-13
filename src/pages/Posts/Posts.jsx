@@ -13,10 +13,11 @@ import { useFetching } from "../../hooks/useFetching";
 import { getPageCount } from "../../utils/page";
 import { Pagination } from "../../Components/UI/Pagination";
 import { useObserver } from "../../hooks/useObserver";
-// import { LocalStorage } from "localStorage";
 
 export const Posts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(
+    JSON.parse(localStorage.getItem("posts")) ?? []
+  );
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -56,18 +57,9 @@ export const Posts = () => {
     setPage(page + 1);
   });
 
-  const loadPosts = () => {
-    const savedPosts = JSON.parse(localStorage.getItem("posts"));
-    if (savedPosts) {
-      setPosts(savedPosts);
-    }
-  };
   const savePosts = () => {
     localStorage.setItem("posts", JSON.stringify(posts));
   };
-  useEffect(() => {
-    loadPosts();
-  }, []);
 
   useEffect(() => {
     savePosts();
