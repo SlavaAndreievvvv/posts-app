@@ -1,0 +1,29 @@
+.Posts {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--G);
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
+.container {
+  max-width: 1366px;
+  width: 100%;
+  padding: 0 16px;
+  margin: 0 auto;
+}
+.createSortBlock {
+  max-width: 420px;
+  width: 100%;
+  gap: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: inset 0px 0px 3px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+}

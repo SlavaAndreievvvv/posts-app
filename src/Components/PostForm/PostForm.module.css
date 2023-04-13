@@ -1,0 +1,8 @@
+.PostForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto;
+  max-width: 480px;
+  width: 100%;
+}

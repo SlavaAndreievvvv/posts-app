@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#root {
+  --PRIMARY_FONT: "Rubik", "sans-serif";
+  --W: white;
+  --G: rgba(217, 209, 209, 0.415);
+  --G2: #c4c4c4;
+  --G3: #8a8e97;
+  --D: #292d32;
+  --B: #3257fb;
+  --B2: #1638cc;
+  --B3: #d7dcff;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+div,
+button,
+input {
+  font-family: var(--PRIMARY_FONT);
+}
+
+button,
+input {
+  cursor: pointer;
+}

@@ -1,0 +1,12 @@
+.PostsList {
+  gap: 12px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 38px;
+  color: var(--D);
+}
